@@ -1,19 +1,25 @@
 import { ScrollView, StyleSheet, Text, TextInput, View, Image } from "react-native";
 import logo from '../images/tornado_logo.png'
+import LinearGradient from 'react-native-linear-gradient';
+
+// Within your render function
 
 
 
 export default function Login () : JSX.Element {
     return (
         <View style={styles.background}>
+        <LinearGradient colors={['#e00', '#900', '#100']} style={styles.linearGradient}>
             <View style={styles.logo_container}>
                 <Text style={styles.logo_title}>PARRILLA</Text>
                 <Image source={logo} style={styles.logo}/>
                 <Text style={styles.logo_title}>TORNADO</Text>
             </View>
-            <Text style={styles.title}>Iniciar sesión</Text>
             <TextInput style={styles.input} placeholder="Usuario"></TextInput>
             <TextInput style={styles.input} placeholder="Contraseña"></TextInput>
+
+                <Text style={styles.buttonText}> Iniciar sesión </Text>
+        </LinearGradient>
         </View>
     )
 }
@@ -47,5 +53,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 70
-    }
+    },
+    linearGradient: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5,
+
+      },
+      buttonText: {
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+      },
 })
