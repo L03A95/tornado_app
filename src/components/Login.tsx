@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TextInput, View, Image } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
 import logo from '../images/tornado_logo.png'
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -17,8 +17,9 @@ export default function Login () : JSX.Element {
             </View>
             <TextInput style={styles.input} placeholder="Usuario"></TextInput>
             <TextInput style={styles.input} placeholder="Contraseña"></TextInput>
-
+            <TouchableOpacity>
                 <Text style={styles.buttonText}> Iniciar sesión </Text>
+            </TouchableOpacity>
         </LinearGradient>
         </View>
     )
@@ -68,5 +69,5 @@ const styles = StyleSheet.create({
         margin: 10,
         color: '#ffffff',
         backgroundColor: 'transparent',
-      },
-})
+      }
+      })
