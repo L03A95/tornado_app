@@ -1,13 +1,25 @@
 import { StyleSheet, Text, View } from "react-native";
 import Card from "./Card";
+import { useState, useEffect } from 'react'
+import axios from "axios";
 
 
 
 export default function Home ({navigation} : {navigation: any}) : JSX.Element {
 
+    const [menus, setMenus] = useState([])
+
+    useEffect(() => {
+        axios.get('https://tornado-api.vercel.app')
+        .then(res => setMenus(res.data))
+        .catch(err => console.log(err.message))
+    }, [])
+
     return (
         <View style={styles.background}>
-            <Card name="Mojarrita Frita" description="La mejor de la isla, especialidad de la casa" price={3000} image="https://boquisabroso.com.co/wp-content/uploads/2023/03/Receta-de-Mojarra-Frita.jpeg" category="entrada" active={true} navigation={navigation} _id='asdad'></Card>
+            {menus.map((m : any) => {
+                return <Card name={m.name} description={m.description} image={m.image} price={m.price} category={m.category} active={m.active} _id={m._id} navigation={navigation} key={m._id}/>
+            })}
         </View>
     )
 }

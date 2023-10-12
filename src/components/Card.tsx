@@ -1,4 +1,5 @@
 import { Image, Text, View, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type CardProps = {
     name: string,
@@ -11,11 +12,11 @@ type CardProps = {
     navigation: any
 }
 
-export default function Card({name, description, image, price, category, active, _id} : CardProps) {
+export default function Card({name, description, image, price, category, active, _id, navigation} : CardProps) {
 
 
     return (
-        <View style={styles.background}>
+        <TouchableOpacity style={styles.background} onPress={() => navigation.navigate(_id)}>
             <View style={styles.text_wrapper}>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.description}>{description}</Text>
@@ -26,7 +27,7 @@ export default function Card({name, description, image, price, category, active,
                 </View>
             </View>
             <Image source={{uri: image}} style={styles.image}></Image>
-        </View>
+        </TouchableOpacity>
     )
 }
 
