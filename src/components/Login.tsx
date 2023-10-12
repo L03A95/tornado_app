@@ -1,23 +1,42 @@
-import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, StatusBar, ToastAndroid } from "react-native";
 import logo from '../images/tornado_logo.png'
 import LinearGradient from 'react-native-linear-gradient';
+import {useState} from 'react'
+import axios from "axios";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-// Within your render function
 
 
+export default function Login ({navigation} : {navigation: any}) : JSX.Element {
 
-export default function Login () : JSX.Element {
+    const [user, setUser] = useState({
+        username: '',
+        password: ''
+    })
+
+    const handleUserInput = (input : string, value: string) => {
+        setUser({...user, [input]: value})
+    }
+
+
+    const loginHandler = () => {
+        axios.post('https://tornado-api.vercel.app/verify', user)
+        .then((res) => { navigation.navigate('Home')})
+        .catch((err) => { ToastAndroid.show('Contraseña o usuario incorrecto', ToastAndroid.SHORT)})
+    }
+
     return (
         <View style={styles.background}>
+            <StatusBar backgroundColor={'#f00000'}></StatusBar>
         <LinearGradient colors={['#e00', '#900', '#100']} style={styles.linearGradient}>
             <View style={styles.logo_container}>
                 <Text style={styles.logo_title}>PARRILLA</Text>
                 <Image source={logo} style={styles.logo}/>
                 <Text style={styles.logo_title}>TORNADO</Text>
             </View>
-            <TextInput style={styles.input} placeholder="Usuario"></TextInput>
-            <TextInput style={styles.input} placeholder="Contraseña"></TextInput>
-            <TouchableOpacity>
+            <TextInput style={styles.input} placeholder="Usuario" onChangeText={(text) => handleUserInput('username', text)}></TextInput>
+            <TextInput style={styles.input} placeholder="Contraseña" onChangeText={(text) => handleUserInput('password', text)}></TextInput>
+            <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
                 <Text style={styles.buttonText}> Iniciar sesión </Text>
             </TouchableOpacity>
         </LinearGradient>
@@ -69,5 +88,10 @@ const styles = StyleSheet.create({
         margin: 10,
         color: '#ffffff',
         backgroundColor: 'transparent',
+      },
+      button: {
+        backgroundColor: '#f22',
+        margin: 10,
+        borderRadius: 5
       }
       })
