@@ -11,6 +11,7 @@ import Home from './src/components/Home';
 import { useState, useEffect } from 'react'
 import axios from "axios";
 import CardScreen from './src/components/CardScreen';
+import CreateForm from './src/components/CreateForm';
 
 const Stack = createStackNavigator();
 
@@ -28,12 +29,13 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator  initialRouteName="Login">
+      <Stack.Navigator  initialRouteName="CreateForm">
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
         {menus.map((m : any) => {
           return <Stack.Screen name={m._id} component={CardScreen} options={{headerShown: false}} key={m._id}/>
         })}
+        <Stack.Screen name='CreateForm' component={CreateForm} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
     )
