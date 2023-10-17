@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useState } from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
-
+import Crypto from 'crypto-js'
 
 
 export default function CreateForm() {
@@ -26,23 +26,27 @@ export default function CreateForm() {
         launchImageLibrary({ mediaType: 'photo', maxWidth: 400, maxHeight: 400 }, (response) => {
           if (!response.didCancel && response.assets) {
             const image = response.assets[0];
-            
+
+
+            const ts = Math.round((new Date()).getTime() / 1000);
+            const apiKey = '945541274585366'
+            const apiSecret = 'ffMXS9C9-76dCwmWnEFQnc-aMZQ'
+            const hash = `timestamp=${ts}${apiSecret}`
+            const signature = Crypto.SHA1(hash).toString()
+                  
             const formData = new FormData();
-            formData.append('image', {
+            formData.append('file', {
               uri: image.uri,
               type: image.type,
               name: image.fileName,
             });
+            formData.append('timestamp',ts)
+            formData.append('api_key',apiKey)
+            formData.append('signature', signature)
       
-            // Realiza una solicitud POST al servidor Node.js para enviar la imagen
-            axios.post('URL_DEL_SERVIDOR/upload', formData)
+            axios.post('https://api.cloudinary.com/v1_1/dlaqpndlk/image/upload', formData)
               .then((response) => {
-                // En este punto, el servidor Node.js ya ha cargado la imagen en Cloudinary
-                // y ha respondido con la URL de la imagen. Puedes acceder a la URL en response.data.
-      
-                const imageUrl = response.data;
-                
-                // Almacena la URL de la imagen en el estado local
+                const imageUrl = response.data.secure_url; // La URL de la imagen en Cloudinary
                 setNewMenu({ ...newMenu, image: imageUrl });
               })
               .catch((error) => {
