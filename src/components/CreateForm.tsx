@@ -5,6 +5,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import Crypto from 'crypto-js'
 import logo from '../images/back_logo.png'
+import blank_image from '../images/menu_blank.png'
 
 
 export default function CreateForm({navigation} : {navigation: any}) {
@@ -73,31 +74,34 @@ export default function CreateForm({navigation} : {navigation: any}) {
     }
 
     return (
-        <View>
+        <View style={styles.background}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
-                <Image source={logo} style={styles.image}/>
+                <Image source={logo} style={styles.back_btn}/>
             </TouchableOpacity>
-            <Text>Añadir Menú</Text>
-            <TextInput placeholder='Nombre' onChangeText={(text) => { handleInputChange('name', text)}}></TextInput>
-            <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}}></TextInput>
-            <TextInput placeholder='Precio' keyboardType="numeric" onChangeText={(text) => { handleInputChange('price', text)}}></TextInput>
-            <Button title='Lunch camera' onPress={async () => handleImageChange()}></Button>
-            <Picker selectedValue={newMenu.category} onValueChange={(value) => handleInputChange('category', value)}>
+            <Text style={styles.title}>Añadir Menú</Text>
+            <TextInput placeholder='Nombre' onChangeText={(text) => { handleInputChange('name', text)}} style={styles.input} />
+            <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}} style={styles.input} />
+            <TextInput placeholder='Precio' keyboardType="numeric" onChangeText={(text) => { handleInputChange('price', text)}} style={styles.input} />
+            <TouchableOpacity onPress={async () => handleImageChange()}>
+                <Text style={styles.buttons}>Subir imagen</Text>
+            </TouchableOpacity>
+            {newMenu.image ? <Image source={{ uri: newMenu.image }} style={{ width: 300, height: 180, margin: 10 }} /> : <Image source={blank_image} style={{ width: 300, height: 180, margin: 10 }}/>}
+            <Picker selectedValue={newMenu.category} onValueChange={(value) => handleInputChange('category', value)} style={styles.input}>
                 <Picker.Item label="Entrada" value='entrada'/>
                 <Picker.Item label="Parrilla" value='parrilla'/>
                 <Picker.Item label="Cafetería" value='cafetería'/>
                 <Picker.Item label="Dulces" value='dulces'/>
-                <Picker.Item label="Bebidas" value='Bebidas'/>
+                <Picker.Item label="Bebidas" value='bebidas'/>
             </Picker>
-            {newMenu.image && <Image source={{ uri: newMenu.image }} style={{ width: 200, height: 200 }} />}
-            <Button onPress={() => console.log(newMenu)} title='Consologear'></Button>
-            <Button title='subir' onPress={() => handleSubmitMenu()}></Button>
+            <TouchableOpacity onPress={() => handleSubmitMenu()} >
+                <Text style={styles.buttons}>Subir</Text>
+            </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    image: {
+    back_btn: {
         height: 40,
         width: 40,
         margin: 5,
@@ -106,9 +110,34 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     button: {
-        
+        alignSelf: 'flex-start'
     },
     background: {
-
+        alignItems: 'center',
+        backgroundColor: '#fff0f0',
+        flex: 1
+    },
+    input: {
+        backgroundColor: '#ecc',
+        margin: 10,
+        borderRadius: 5,
+        paddingLeft: 15,
+        fontSize: 16,
+        width: '90%',
+        color: '#800'
+    },
+    title: {
+        fontSize: 30,
+        color: '#900',
+        fontWeight: '600'
+    },
+    buttons: {
+        backgroundColor: '#900',
+        padding: 5,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        color: '#fff',
+        fontSize: 18,
+        margin: 5
     }
 })
