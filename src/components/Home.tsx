@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, ScrollView } from "react-native";
 import Card from "./Card";
 import { useState, useEffect } from 'react'
 import axios from "axios";
-
+import Header from "./Header";
 
 
 export default function Home ({navigation} : {navigation: any}) : JSX.Element {
@@ -16,11 +16,12 @@ export default function Home ({navigation} : {navigation: any}) : JSX.Element {
     }, [])
 
     return (
-        <View style={styles.background}>
+        <ScrollView style={styles.background}>
+            <Header navigation={navigation}/>
             {menus.map((m : any) => {
                 return <Card name={m.name} description={m.description} image={m.image} price={m.price} category={m.category} active={m.active} _id={m._id} navigation={navigation} key={m._id}/>
             })}
-        </View>
+        </ScrollView>
     )
 }
 

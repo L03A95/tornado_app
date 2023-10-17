@@ -29,7 +29,7 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator  initialRouteName="CreateForm">
+      <Stack.Navigator  initialRouteName="Home">
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
         {menus.map((m : any) => {

@@ -1,12 +1,13 @@
-import { View, TextInput, Text, Button, Image } from 'react-native'
+import { View, TextInput, Text, Button, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Picker } from "@react-native-picker/picker";
 import { useState } from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import Crypto from 'crypto-js'
+import logo from '../images/back_logo.png'
 
 
-export default function CreateForm() {
+export default function CreateForm({navigation} : {navigation: any}) {
 
 
     const [newMenu, setNewMenu] = useState({
@@ -17,6 +18,15 @@ export default function CreateForm() {
         category: 'entrada',
         active: true
     })
+
+    const blankMenu = {
+        name: '',
+        description: '',
+        price: 0,
+        image: '',
+        category: 'entrada',
+        active: true
+    }
 
     const handleInputChange = (type : string , value : string | number) => {
         setNewMenu({...newMenu, [type]: value})
@@ -57,15 +67,16 @@ export default function CreateForm() {
       };
 
     const handleSubmitMenu = async () => {
-
-    
-
-
-
+        axios.post('https://tornado-api.vercel.app/', newMenu)
+        .then(res => setNewMenu(blankMenu))
+        .catch(err => console.log(err))
     }
 
     return (
         <View>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
+                <Image source={logo} style={styles.image}/>
+            </TouchableOpacity>
             <Text>Añadir Menú</Text>
             <TextInput placeholder='Nombre' onChangeText={(text) => { handleInputChange('name', text)}}></TextInput>
             <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}}></TextInput>
@@ -84,3 +95,20 @@ export default function CreateForm() {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    image: {
+        height: 40,
+        width: 40,
+        margin: 5,
+        backgroundColor: '#c00',
+        borderRadius: 15,
+        marginRight: 20
+    },
+    button: {
+        
+    },
+    background: {
+
+    }
+})
