@@ -2,9 +2,11 @@ import { View, TextInput, Text, Button, Image } from 'react-native'
 import { Picker } from "@react-native-picker/picker";
 import { useState } from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
+import { UploadApiOptions, upload } from 'cloudinary-react-native';
+import {Cloudinary, } from '@cloudinary/url-gen';
 
 export default function CreateForm() {
+
 
     const [newMenu, setNewMenu] = useState({
         name: '',
@@ -21,11 +23,36 @@ export default function CreateForm() {
 
     const handleImageChange = async () => {
 
-        launchImageLibrary({mediaType: 'photo', }, (response) => {
+        launchImageLibrary({mediaType: 'photo', maxWidth: 400, maxHeight: 400 }, (response) => {
             if (!response.didCancel && response.assets) {
               setNewMenu({ ...newMenu, image: response.assets[0].uri ? response.assets[0].uri : 'undefined' });
             }
           });
+    }
+
+    const handleSubmitMenu = async () => {
+        const cld = new Cloudinary({
+            cloud: {
+              cloudName: 'dlaqpndlk'
+            },
+            url: {
+              secure: true
+            }
+          });
+    
+          const options: UploadApiOptions = {
+            upload_preset: 'sample_preset',
+            unsigned: true,
+          }
+
+        await upload(cld, {file: newMenu.image , options: options, callback: (error: any, response: any) => {
+            //.. handle response
+            try {
+                console.log('Se logro ' + response.url)
+            } catch (err) {
+                console.log(error)
+            }
+        }})
     }
 
     return (
