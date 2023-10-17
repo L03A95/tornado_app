@@ -2,8 +2,9 @@ import { View, TextInput, Text, Button, Image } from 'react-native'
 import { Picker } from "@react-native-picker/picker";
 import { useState } from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import { UploadApiOptions, upload } from 'cloudinary-react-native';
-import {Cloudinary, } from '@cloudinary/url-gen';
+import axios from 'axios';
+
+
 
 export default function CreateForm() {
 
@@ -22,37 +23,41 @@ export default function CreateForm() {
     }
 
     const handleImageChange = async () => {
-
-        launchImageLibrary({mediaType: 'photo', maxWidth: 400, maxHeight: 400 }, (response) => {
-            if (!response.didCancel && response.assets) {
-              setNewMenu({ ...newMenu, image: response.assets[0].uri ? response.assets[0].uri : 'undefined' });
-            }
-          });
-    }
+        launchImageLibrary({ mediaType: 'photo', maxWidth: 400, maxHeight: 400 }, (response) => {
+          if (!response.didCancel && response.assets) {
+            const image = response.assets[0];
+            
+            const formData = new FormData();
+            formData.append('image', {
+              uri: image.uri,
+              type: image.type,
+              name: image.fileName,
+            });
+      
+            // Realiza una solicitud POST al servidor Node.js para enviar la imagen
+            axios.post('URL_DEL_SERVIDOR/upload', formData)
+              .then((response) => {
+                // En este punto, el servidor Node.js ya ha cargado la imagen en Cloudinary
+                // y ha respondido con la URL de la imagen. Puedes acceder a la URL en response.data.
+      
+                const imageUrl = response.data;
+                
+                // Almacena la URL de la imagen en el estado local
+                setNewMenu({ ...newMenu, image: imageUrl });
+              })
+              .catch((error) => {
+                console.error('Error al cargar la imagen en el servidor', error);
+              });
+          }
+        });
+      };
 
     const handleSubmitMenu = async () => {
-        const cld = new Cloudinary({
-            cloud: {
-              cloudName: 'dlaqpndlk'
-            },
-            url: {
-              secure: true
-            }
-          });
-    
-          const options: UploadApiOptions = {
-            upload_preset: 'sample_preset',
-            unsigned: true,
-          }
 
-        await upload(cld, {file: newMenu.image , options: options, callback: (error: any, response: any) => {
-            //.. handle response
-            try {
-                console.log('Se logro ' + response.url)
-            } catch (err) {
-                console.log(error)
-            }
-        }})
+    
+
+
+
     }
 
     return (
@@ -71,6 +76,7 @@ export default function CreateForm() {
             </Picker>
             {newMenu.image && <Image source={{ uri: newMenu.image }} style={{ width: 200, height: 200 }} />}
             <Button onPress={() => console.log(newMenu)} title='Consologear'></Button>
+            <Button title='subir' onPress={() => handleSubmitMenu()}></Button>
         </View>
     )
 }
