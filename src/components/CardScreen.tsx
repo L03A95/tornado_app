@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput, Switch  } from "react-native";
 import { useRoute } from '@react-navigation/native';
 import {useState, useEffect} from 'react'
 import axios from "axios";
+import { Picker } from "@react-native-picker/picker";
 import logo from '../images/back_logo.png'
 import ok_logo from '../images/active_logo.png'
 import no_logo from '../images/inactive_logo.png'
@@ -17,7 +18,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
         image: 'https://png.pngtree.com/thumb_back/fh260/background/20210207/pngtree-gray-solid-color-simple-background-image_557028.jpg',
         price: 0,
         category: '',
-        active: ''
+        active: false
     })
 
     const [edit, setEdit] = useState(false)
@@ -38,8 +39,14 @@ export default function CardScreen ({navigation} : {navigation: any}) {
         setEdit(true)
     }
 
+    const handleInputChange = (type : string , value : string | number) => {
+        setMenu({...menu, [type]: value})
+    }
+
     const handleEditSubmit = () => {
-        setEdit(false)
+        axios.put('https://tornado-api.vercel.app/' + menuId, menu)
+        .then((res) => setEdit(false))
+        .catch(err => console.log(err))
     }
 
     return (
@@ -51,7 +58,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                 <View style={styles.text_wrapper}>
                     <Text style={styles.text_title}>Nombre del Menú:</Text>
                     {edit 
-                    ? null
+                    ? <TextInput placeholder='Nombre' onChangeText={(text) => { handleInputChange('name', text)}} style={styles.text} value={menu.name}/>
                     : <Text style={styles.text}>{menu.name}</Text>}
                     
                 </View>
@@ -59,7 +66,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                 <View style={styles.text_wrapper}>
                     <Text style={styles.text_title}>Descripción:</Text>
                     {edit 
-                    ? null 
+                    ? <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}} style={styles.text} value={menu.description}/>
                     : <Text style={styles.text}>{menu.description}</Text>}
                 </View>
                 <Image source={{uri: menu.image}} style={{height: 180, width: 300}}></Image>
@@ -67,13 +74,13 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                     <View style={{marginVertical: 10}}>
                         <Text style={styles.text_title}>Precio:</Text>
                         {edit 
-                        ? null
+                        ? <TextInput placeholder='Precio' keyboardType="numeric" onChangeText={(text) => { handleInputChange('price', text)}} style={styles.text_short} value={`${menu.price}`}/>
                         :<Text style={styles.text_short}>${menu.price}</Text>}
                     </View>
                     <View style={{marginVertical: 10}}>
                         <Text style={styles.text_title}>Activo:</Text>
                         {edit 
-                        ? null
+                        ? <Switch value={menu.active} onChange={(v) => setMenu({...menu, active: !menu.active})} trackColor={{false: '#a06', true: '#0a6'}} thumbColor={'#fff'} style={{width: 50, height: 50}}/>
                         : menu.active 
                         ? <Image source={ok_logo} style={{height: 60, width: 60, marginLeft: '4%', backgroundColor:'#0a6', borderRadius: 40}}/> 
                         : <Image source={no_logo} style={{height: 60, width: 60, marginLeft: '4%', backgroundColor:'#a06', borderRadius: 40}}/>}
@@ -81,7 +88,13 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                     <View style={{marginVertical: 10}}>
                         <Text style={styles.text_title}>Categoría:</Text>
                         {edit 
-                        ? null 
+                        ? <Picker selectedValue={menu.category} onValueChange={(value) => handleInputChange('category', value)} style={styles.text_short2}>
+                            <Picker.Item label="Entrada" value='entrada'/>
+                            <Picker.Item label="Parrilla" value='parrilla'/>
+                            <Picker.Item label="Cafetería" value='cafetería'/>
+                            <Picker.Item label="Dulces" value='dulces'/>
+                            <Picker.Item label="Bebidas" value='bebidas'/>
+                        </Picker>
                         :<Text style={styles.text_short}>{menu.category[0]?.toUpperCase() + menu.category?.slice(1)}</Text>
                         }
                     </View>
@@ -160,5 +173,14 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         margin: 5
+    },
+    text_short2: {
+        backgroundColor: '#ecc',
+        margin: 10,
+        borderRadius: 5,
+        fontSize: 14,
+        color: '#800',
+        padding: 0,
+        width: 130
     }
 })
