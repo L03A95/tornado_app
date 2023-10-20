@@ -31,7 +31,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
 
     const deleteMenu = () => {
         axios.delete('https://tornado-api.vercel.app/' + menuId)
-        .then(res => console.log('Eliminado'))
+        .then(res => navigation.navigate('Home'))
         .catch(err => console.log(err))
     }
 

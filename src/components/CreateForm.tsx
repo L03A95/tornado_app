@@ -15,7 +15,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
         name: '',
         description: '',
         price: 0,
-        image: '',
+        image: 'https://res.cloudinary.com/dlaqpndlk/image/upload/v1697822906/cadi5vdi261hjereq5ma.png',
         category: 'entrada',
         active: true
     })
@@ -24,7 +24,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
         name: '',
         description: '',
         price: 0,
-        image: '',
+        image: 'https://res.cloudinary.com/dlaqpndlk/image/upload/v1697822906/cadi5vdi261hjereq5ma.png',
         category: 'entrada',
         active: true
     }
@@ -69,7 +69,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
 
     const handleSubmitMenu = async () => {
         axios.post('https://tornado-api.vercel.app/', newMenu)
-        .then(res => setNewMenu(blankMenu))
+        .then(res => setNewMenu(blankMenu), navigation.navigate('Home'))
         .catch(err => console.log(err))
     }
 

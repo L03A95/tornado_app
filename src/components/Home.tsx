@@ -18,9 +18,10 @@ export default function Home ({navigation} : {navigation: any}) : JSX.Element {
     return (
         <ScrollView style={styles.background}>
             <Header navigation={navigation}/>
-            {menus.map((m : any) => {
+            {menus[0] ?
+            menus?.map((m : any) => {
                 return <Card name={m.name} description={m.description} image={m.image} price={m.price} category={m.category} active={m.active} _id={m._id} navigation={navigation} key={m._id}/>
-            })}
+            }) : <Text style={styles.text}>No se encontraron menús...</Text>}
         </ScrollView>
     )
 }
@@ -28,6 +29,10 @@ export default function Home ({navigation} : {navigation: any}) : JSX.Element {
 const styles = StyleSheet.create({
     background: {
         backgroundColor: '#fff0f0',
-        flex: 1
+        flex: 1,
+    },
+    text: {
+        textAlign: 'center',
+        marginTop: 50
     }
 })

@@ -25,7 +25,7 @@ function App(): JSX.Element {
       axios.get('https://tornado-api.vercel.app')
       .then(res => setMenus(res.data))
       .catch(err => console.log(err.message))
-  }, [])
+  })
 
   return (
     <NavigationContainer>
