@@ -91,7 +91,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                         ? <Picker selectedValue={menu.category} onValueChange={(value) => handleInputChange('category', value)} style={styles.text_short2}>
                             <Picker.Item label="Entrada" value='entrada'/>
                             <Picker.Item label="Parrilla" value='parrilla'/>
-                            <Picker.Item label="Cafetería" value='cafetería'/>
+                            <Picker.Item label="Cafetería" value='cafeteria'/>
                             <Picker.Item label="Dulces" value='dulces'/>
                             <Picker.Item label="Bebidas" value='bebidas'/>
                         </Picker>

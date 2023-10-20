@@ -89,7 +89,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
             <Picker selectedValue={newMenu.category} onValueChange={(value) => handleInputChange('category', value)} style={styles.input}>
                 <Picker.Item label="Entrada" value='entrada'/>
                 <Picker.Item label="Parrilla" value='parrilla'/>
-                <Picker.Item label="Cafetería" value='cafetería'/>
+                <Picker.Item label="Cafetería" value='cafeteria'/>
                 <Picker.Item label="Dulces" value='dulces'/>
                 <Picker.Item label="Bebidas" value='bebidas'/>
             </Picker>
