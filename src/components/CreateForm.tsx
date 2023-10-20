@@ -83,7 +83,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
             <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}} style={styles.input} />
             <TextInput placeholder='Precio' keyboardType="numeric" onChangeText={(text) => { handleInputChange('price', text)}} style={styles.input} />
             <TouchableOpacity onPress={async () => handleImageChange()}>
-                <Text style={styles.buttons}>Subir imagen</Text>
+                <Text style={styles.buttons}>SUBIR IMAGEN</Text>
             </TouchableOpacity>
             {newMenu.image ? <Image source={{ uri: newMenu.image }} style={{ width: 300, height: 180, margin: 10 }} /> : <Image source={blank_image} style={{ width: 300, height: 180, margin: 10 }}/>}
             <Picker selectedValue={newMenu.category} onValueChange={(value) => handleInputChange('category', value)} style={styles.input}>
@@ -94,7 +94,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
                 <Picker.Item label="Bebidas" value='bebidas'/>
             </Picker>
             <TouchableOpacity onPress={() => handleSubmitMenu()} >
-                <Text style={styles.buttons}>Subir</Text>
+                <Text style={styles.buttons}>SUBIR</Text>
             </TouchableOpacity>
         </View>
     )
@@ -135,9 +135,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#900',
         padding: 5,
         paddingHorizontal: 20,
-        borderRadius: 5,
+        borderRadius: 3,
         color: '#fff',
-        fontSize: 18,
+        fontSize: 16,
         margin: 5
     }
 })
