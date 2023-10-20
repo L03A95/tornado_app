@@ -13,7 +13,7 @@ export default function Home ({navigation} : {navigation: any}) : JSX.Element {
         axios.get('https://tornado-api.vercel.app')
         .then(res => setMenus(res.data))
         .catch(err => console.log(err.message))
-    }, [])
+    })
 
     return (
         <ScrollView style={styles.background}>
