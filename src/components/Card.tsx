@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     description: {
-        fontSize: 15
+        fontSize: 15,
+        color: '#555'
     },
     info_wrapper: {
         flexDirection: "row",
