@@ -47,7 +47,8 @@ export default function Login ({navigation} : {navigation: any}) : JSX.Element {
 const styles = StyleSheet.create({
     background: {
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        backgroundColor: '#000'
     },
     input: {
         backgroundColor: '#c00',

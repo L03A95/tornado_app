@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView } from "react-native";
+import { StyleSheet, Text, ScrollView, StatusBar } from "react-native";
 import Card from "./Card";
 import { useState, useEffect } from 'react'
 import axios from "axios";
@@ -17,6 +17,7 @@ export default function Home ({navigation} : {navigation: any}) : JSX.Element {
 
     return (
         <ScrollView style={styles.background}>
+            <StatusBar backgroundColor={'#900'}></StatusBar>
             <Header navigation={navigation}/>
             {menus[0] ?
             menus?.map((m : any) => {
