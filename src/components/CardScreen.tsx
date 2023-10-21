@@ -6,7 +6,9 @@ import { Picker } from "@react-native-picker/picker";
 import logo from '../images/back_logo.png'
 import ok_logo from '../images/active_logo.png'
 import no_logo from '../images/inactive_logo.png'
-
+import write_logo from '../images/escritura.png'
+import delete_logo from '../images/delete.png'
+import save_logo from '../images/save.png'
 
 export default function CardScreen ({navigation} : {navigation: any}) {
     const route = useRoute();
@@ -51,9 +53,21 @@ export default function CardScreen ({navigation} : {navigation: any}) {
 
     return (
         <View style={styles.background}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.back_wrapper}>
-                <Image source={logo} style={styles.back_btn}/>
-            </TouchableOpacity>
+            <View style={styles.header_wrapper}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    <Image source={logo} style={styles.back_btn}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteMenu()} >
+                    <Image source={delete_logo} style={styles.buttons}/>
+                </TouchableOpacity>
+                    {edit 
+                    ? <TouchableOpacity onPress={() => handleEditSubmit()} >
+                        <Image source={save_logo} style={styles.buttons}/>
+                    </TouchableOpacity>
+                    : <TouchableOpacity onPress={() => editMenu()} >
+                        <Image source={write_logo} style={styles.buttons}/>
+                    </TouchableOpacity>}
+            </View>
             <View style={styles.content_wrapper}>
                 <Image source={{uri: menu.image}} style={{height: 180, width: 300}}></Image>
                 <View style={styles.text_wrapper}>
@@ -100,16 +114,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                     </View>
                 </View>
                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                    <TouchableOpacity onPress={() => deleteMenu()} >
-                        <Text style={styles.buttons}>ELIMINAR</Text>
-                    </TouchableOpacity>
-                    {edit 
-                    ? <TouchableOpacity onPress={() => handleEditSubmit()} >
-                        <Text style={styles.buttons}>GUARDAR</Text>
-                    </TouchableOpacity>
-                    : <TouchableOpacity onPress={() => editMenu()} >
-                        <Text style={styles.buttons}>EDITAR</Text>
-                    </TouchableOpacity>}
+
                     
                 </View>
 
@@ -123,17 +128,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flex: 1,
     },
+    header_wrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: '#900'
+    },
     back_btn: {
         height: 50,
         width: 50,
         margin: 5,
         backgroundColor: '#c00',
-        borderRadius: 20,
+        borderRadius: 30,
         marginRight: 20,
 
     },
-    back_wrapper: {
-        backgroundColor: '#900'
+    buttons: {
+        height: 50,
+        width: 50,
+        margin: 5,
+        backgroundColor: '#c00',
+        borderRadius: 10,
+        marginRight: 20,
+
     },
     content_wrapper: {
         alignItems: 'center',
@@ -169,21 +185,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         padding: 14,
     },
-    buttons: {
-        backgroundColor: '#900',
-        padding: 5,
-        paddingHorizontal: 20,
-        borderRadius: 3,
-        color: '#fff',
-        fontSize: 16,
-        margin: 5
-    },
     text_short2: {
-        backgroundColor: '#ecc',
+        backgroundColor: '#900',
         margin: 10,
         borderRadius: 5,
         fontSize: 14,
-        color: '#800',
+        color: '#fff',
         padding: 0,
         width: 130
     }
