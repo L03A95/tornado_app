@@ -28,7 +28,7 @@ export default function Home ({navigation} : {navigation: any}) : JSX.Element {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: '#fff0f0',
+        backgroundColor: '#fff',
         flex: 1,
     },
     text: {

@@ -1,5 +1,7 @@
 import { Image, Text, View, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import ok_logo from '../images/active_logo.png'
+import no_logo from '../images/inactive_logo.png'
 
 type CardProps = {
     name: string,
@@ -22,8 +24,10 @@ export default function Card({name, description, image, price, category, active,
                 <Text style={styles.description}>{description}</Text>
                 <View style={styles.info_wrapper}>
                     <Text style={styles.price}>${price}</Text>
-                    <Text style={styles.category}>{category}</Text>
-                    <Text style={active ? styles.active : styles.inactive}>{active ? 'Activo' : 'Inactivo'}</Text>
+                    <Text style={styles.category}>{category[0]?.toUpperCase() + category?.slice(1)}</Text>
+                    {active 
+                    ? <Image source={ok_logo} style={{width: 30, height: 30, backgroundColor: '#0a6', borderRadius: 20}}/>
+                    : <Image source={no_logo} style={{width: 30, height: 30, backgroundColor: '#a06', borderRadius: 20}}/>}
                 </View>
             </View>
             <Image source={{uri: image}} style={styles.image}></Image>
@@ -67,14 +71,17 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 18,
         color: '#222',
-        fontWeight: '500'
+        fontWeight: '600'
     },
     category: {
         fontSize: 16,
         color: '#fff',
         backgroundColor: '#a00',
-        paddingHorizontal: 3,
-        borderRadius: 5
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        textAlign: "center",
+        padding: 3,
+        fontStyle: 'italic'
     },
     active: {
         fontSize: 18,

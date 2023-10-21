@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
         width: 50,
         margin: 5,
         backgroundColor: '#c00',
-        borderRadius: 15,
+        borderRadius: 30,
         marginRight: 20
     },
     button: {
         alignItems: 'flex-end'
     },
     background: {
-
+        backgroundColor: '#900'
     }
 })

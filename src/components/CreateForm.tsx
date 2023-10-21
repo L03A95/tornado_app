@@ -1,4 +1,4 @@
-import { View, TextInput, Text, Button, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, TextInput, Text, Button, Image, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Picker } from "@react-native-picker/picker";
 import { useState } from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -69,7 +69,7 @@ export default function CreateForm({navigation} : {navigation: any}) {
 
     const handleSubmitMenu = async () => {
         axios.post('https://tornado-api.vercel.app/', newMenu)
-        .then(res => setNewMenu(blankMenu), navigation.navigate('Home'))
+        .then(res => {setNewMenu(blankMenu), ToastAndroid.show('Menú cargado exitósamente', ToastAndroid.SHORT) ,navigation.navigate('Home')})
         .catch(err => console.log(err))
     }
 
@@ -79,9 +79,9 @@ export default function CreateForm({navigation} : {navigation: any}) {
                 <Image source={logo} style={styles.back_btn}/>
             </TouchableOpacity>
             <Text style={styles.title}>Añadir Menú</Text>
-            <TextInput placeholder='Nombre' onChangeText={(text) => { handleInputChange('name', text)}} style={styles.input} />
-            <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}} style={styles.input} />
-            <TextInput placeholder='Precio' keyboardType="numeric" onChangeText={(text) => { handleInputChange('price', text)}} style={styles.input} />
+            <TextInput placeholder='Nombre' onChangeText={(text) => { handleInputChange('name', text)}} style={styles.input} placeholderTextColor='#caa'/>
+            <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}} style={styles.input} placeholderTextColor='#caa'/>
+            <TextInput placeholder='Precio' keyboardType="numeric" onChangeText={(text) => { handleInputChange('price', text)}} style={styles.input} placeholderTextColor='#caa'/>
             <TouchableOpacity onPress={async () => handleImageChange()}>
                 <Text style={styles.buttons}>SUBIR IMAGEN</Text>
             </TouchableOpacity>
@@ -102,34 +102,37 @@ export default function CreateForm({navigation} : {navigation: any}) {
 
 const styles = StyleSheet.create({
     back_btn: {
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
         margin: 5,
         backgroundColor: '#c00',
-        borderRadius: 15,
+        borderRadius: 20,
         marginRight: 20
     },
     button: {
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        backgroundColor: '#900',
+        width: '100%'
     },
     background: {
         alignItems: 'center',
-        backgroundColor: '#fff0f0',
+        backgroundColor: '#fff',
         flex: 1
     },
     input: {
-        backgroundColor: '#ecc',
+        backgroundColor: '#9f0000',
         margin: 10,
         borderRadius: 5,
         paddingLeft: 15,
         fontSize: 16,
         width: '90%',
-        color: '#800'
+        color: '#fff'
     },
     title: {
         fontSize: 30,
         color: '#900',
-        fontWeight: '600'
+        fontWeight: '600',
+        marginTop: 30
     },
     buttons: {
         backgroundColor: '#900',

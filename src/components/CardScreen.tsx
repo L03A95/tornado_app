@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput, Switch  } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, TextInput, Switch, ToastAndroid  } from "react-native";
 import { useRoute } from '@react-navigation/native';
 import {useState, useEffect} from 'react'
 import axios from "axios";
@@ -31,7 +31,7 @@ export default function CardScreen ({navigation} : {navigation: any}) {
 
     const deleteMenu = () => {
         axios.delete('https://tornado-api.vercel.app/' + menuId)
-        .then(res => navigation.navigate('Home'))
+        .then(res => {navigation.navigate('Home'), ToastAndroid.show('Menú eliminado exitósamente', ToastAndroid.SHORT)})
         .catch(err => console.log(err))
     }
 
@@ -45,16 +45,17 @@ export default function CardScreen ({navigation} : {navigation: any}) {
 
     const handleEditSubmit = () => {
         axios.put('https://tornado-api.vercel.app/' + menuId, menu)
-        .then((res) => setEdit(false))
+        .then((res) => {setEdit(false), ToastAndroid.show('Menú editado exitósamente', ToastAndroid.SHORT)})
         .catch(err => console.log(err))
     }
 
     return (
         <View style={styles.background}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} >
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.back_wrapper}>
                 <Image source={logo} style={styles.back_btn}/>
             </TouchableOpacity>
             <View style={styles.content_wrapper}>
+                <Image source={{uri: menu.image}} style={{height: 180, width: 300}}></Image>
                 <View style={styles.text_wrapper}>
                     <Text style={styles.text_title}>Nombre del Menú:</Text>
                     {edit 
@@ -69,7 +70,6 @@ export default function CardScreen ({navigation} : {navigation: any}) {
                     ? <TextInput placeholder='Descripción' onChangeText={(text) => { handleInputChange('description', text)}} style={styles.text} value={menu.description}/>
                     : <Text style={styles.text}>{menu.description}</Text>}
                 </View>
-                <Image source={{uri: menu.image}} style={{height: 180, width: 300}}></Image>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly', width: '100%'}}>
                     <View style={{marginVertical: 10}}>
                         <Text style={styles.text_title}>Precio:</Text>
@@ -120,29 +120,33 @@ export default function CardScreen ({navigation} : {navigation: any}) {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: '#fff0f0',
+        backgroundColor: '#fff',
         flex: 1,
     },
     back_btn: {
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
         margin: 5,
         backgroundColor: '#c00',
-        borderRadius: 15,
+        borderRadius: 20,
         marginRight: 20,
 
     },
+    back_wrapper: {
+        backgroundColor: '#900'
+    },
     content_wrapper: {
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 30
     },
     text: {
-        backgroundColor: '#ecc',
+        backgroundColor: '#900',
         margin: 10,
         borderRadius: 5,
         paddingLeft: 15,
         fontSize: 16,
         width: '90%',
-        color: '#800',
+        color: '#fff',
         padding: 14,
         alignSelf: "center"
     },
@@ -157,12 +161,12 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     text_short: {
-        backgroundColor: '#ecc',
+        backgroundColor: '#900',
         margin: 10,
         borderRadius: 5,
         paddingLeft: 15,
         fontSize: 16,
-        color: '#800',
+        color: '#fff',
         padding: 14,
     },
     buttons: {
